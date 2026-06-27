@@ -26,6 +26,8 @@ public class TradeCsvTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
+        System.out.println("Trade CSV 出力処理を開始します（GitHub実習）");
+
         System.out.println("Trade CSV 出力開始…");
 
         // PostgreSQL から SELECT
