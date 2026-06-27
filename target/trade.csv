@@ -1,0 +1,3 @@
+baseDate,tradeNo,customerCode,securityCode,buySell,quantity,amount,contractDate,settlementDate
+20240620,T0001,0001,7203,B,100,500000,20240620,20240625
+20240620,T0002,0002,6758,S,50,300000,20240620,20240625
