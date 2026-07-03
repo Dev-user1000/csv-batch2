@@ -26,6 +26,8 @@ public class TradeCsvTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
+        System.out.println("Trade CSV読み込み処理を開始します");
+
         System.out.println("Trade CSV 出力処理を開始します（GitHub実習）");
 
         System.out.println("Trade CSV 出力開始…");
@@ -70,6 +72,8 @@ public class TradeCsvTasklet implements Tasklet {
         Files.write(Paths.get(outputPath), lines);
 
         System.out.println("Trade CSV 出力完了。");
+
+        System.out.println("Trade CSV読み込み処理を終了しました");
 
         return RepeatStatus.FINISHED;
     }
