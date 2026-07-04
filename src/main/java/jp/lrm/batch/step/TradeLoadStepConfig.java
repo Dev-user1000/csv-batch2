@@ -20,6 +20,7 @@ public class TradeLoadStepConfig {
     ) {
         return new StepBuilder("tradeLoadStep", jobRepository)
                 .tasklet(tasklet, transactionManager)
+                .allowStartIfComplete(true)   // ★ 前回 COMPLETED でも必ず実行
                 .build();
     }
 }

@@ -16,13 +16,11 @@ public class TradeCsvReaderConfig {
     @Bean
     public JdbcCursorItemReader<Trade> tradeCsvReader(DataSource postgresDataSource) throws Exception {
 
-        System.out.println("Trade CSV読み込み処理を開始します");
-
         // classpath から SQL を読み込む
         ClassPathResource resource = new ClassPathResource("sql/upstream/trade_select.sql");
         String sql = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
-        JdbcCursorItemReader<Trade> reader = new JdbcCursorItemReaderBuilder<Trade>()
+        return new JdbcCursorItemReaderBuilder<Trade>()
                 .name("tradeCsvReader")
                 .dataSource(postgresDataSource)
                 .sql(sql)
@@ -40,9 +38,5 @@ public class TradeCsvReaderConfig {
                     return t;
                 })
                 .build();
-
-        System.out.println("Trade CSV読み込み処理を終了しました");
-
-        return reader;
     }
 }

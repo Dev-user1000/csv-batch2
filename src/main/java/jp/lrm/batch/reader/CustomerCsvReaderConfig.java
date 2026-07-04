@@ -14,8 +14,6 @@ public class CustomerCsvReaderConfig {
     @Bean
     public JdbcCursorItemReader<Customer> customerCsvReader(DataSource postgresDataSource) {
 
-        System.out.println("Customer CSV読み込み処理を開始します");
-
         String sql = """
             SELECT
                 base_date      AS baseDate,
@@ -24,7 +22,7 @@ public class CustomerCsvReaderConfig {
             FROM upstream_customer
         """;
 
-        JdbcCursorItemReader<Customer> reader = new JdbcCursorItemReaderBuilder<Customer>()
+        return new JdbcCursorItemReaderBuilder<Customer>()
                 .name("customerCsvReader")
                 .dataSource(postgresDataSource)
                 .sql(sql)
@@ -36,9 +34,5 @@ public class CustomerCsvReaderConfig {
                     return c;
                 })
                 .build();
-
-        System.out.println("Customer CSV読み込み処理を終了しました");
-
-        return reader;
     }
 }

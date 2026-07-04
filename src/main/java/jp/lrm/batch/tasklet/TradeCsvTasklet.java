@@ -4,6 +4,7 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,9 @@ public class TradeCsvTasklet implements Tasklet {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Value("${batch.trade.csv.path}")
+    private String outputPath;
+
     public TradeCsvTasklet(
             @Qualifier("postgresDataSource") DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -26,13 +30,9 @@ public class TradeCsvTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
-        System.out.println("Trade CSV読み込み処理を開始します");
-
-        System.out.println("Trade CSV 出力処理を開始します（GitHub実習）");
-
+        System.out.println("Trade CSV 出力処理を開始します");
         System.out.println("Trade CSV 出力開始…");
 
-        // PostgreSQL から SELECT
         String sql = """
             SELECT
                 base_date,
@@ -62,18 +62,14 @@ public class TradeCsvTasklet implements Tasklet {
             );
         });
 
-        // ヘッダ行を追加
+        // ヘッダ行
         lines.add(0,
                 "baseDate,tradeNo,customerCode,securityCode,buySell,quantity,amount,contractDate,settlementDate"
         );
 
-        // CSV 出力
-        String outputPath = "C:/AIDev/Maven/Projects/csv-batch2/target/trade.csv";
         Files.write(Paths.get(outputPath), lines);
 
         System.out.println("Trade CSV 出力完了。");
-
-        System.out.println("Trade CSV読み込み処理を終了しました");
 
         return RepeatStatus.FINISHED;
     }
