@@ -14,6 +14,8 @@ public class SecurityCsvReaderConfig {
     @Bean
     public JdbcCursorItemReader<Security> securityCsvReader(DataSource postgresDataSource) {
 
+        System.out.println("Security CSV読み込み処理を開始します");
+
         String sql = """
             SELECT
                 base_date      AS baseDate,
@@ -22,7 +24,7 @@ public class SecurityCsvReaderConfig {
             FROM upstream_security
         """;
 
-        return new JdbcCursorItemReaderBuilder<Security>()
+        JdbcCursorItemReader<Security> reader = new JdbcCursorItemReaderBuilder<Security>()
                 .name("securityCsvReader")
                 .dataSource(postgresDataSource)
                 .sql(sql)
@@ -34,5 +36,9 @@ public class SecurityCsvReaderConfig {
                     return s;
                 })
                 .build();
+
+        System.out.println("Security CSV読み込み処理を終了しました");
+
+        return reader;
     }
 }
