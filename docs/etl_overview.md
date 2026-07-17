@@ -198,13 +198,6 @@ INSERT INTO Trade (
 - **処理**: securityNameのtrim処理
 - **入出力**: Security → Security
 
-#### TradeProcessor
-- **パッケージ**: jp.lrm.batch.processor
-- **役割**: Tradeデータの変換処理
-- **処理**: buySellのtrim処理
-- **入出力**: Trade → Trade
-- **注**: 現在のTrade ETLでは使用されていない（Tasklet方式）
-
 ### 4.3 Reader 一覧
 
 #### CustomerCsvReader
@@ -237,15 +230,6 @@ FROM upstream_security
 ```
 - **RowMapper**: Securityオブジェクトにマッピング
 
-#### TradeCsvReader
-- **パッケージ**: jp.lrm.batch.reader
-- **役割**: PostgreSQLからTradeデータを読み込み
-- **データソース**: PostgreSQL（postgresDataSource）
-- **実装**: JdbcCursorItemReader
-- **SQLファイル**: `classpath:sql/upstream/trade_select.sql`
-- **RowMapper**: Tradeオブジェクトにマッピング
-- **注**: 現在のTrade ETLでは使用されていない（Tasklet方式）
-
 ### 4.4 Writer 一覧
 
 #### CustomerDbWriter
@@ -271,15 +255,6 @@ INSERT INTO Security (baseDate, securityCode, securityName)
 VALUES (:baseDate, :securityCode, :securityName)
 ```
 - **マッピング**: BeanMapped（Securityオブジェクトのプロパティをバインド）
-
-#### TradeCsvWriter
-- **パッケージ**: jp.lrm.batch.writer
-- **役割**: TradeデータをCSVファイルに書き込み
-- **実装**: FlatFileItemWriter
-- **出力先**: `target/trade.csv`
-- **フォーマット**: カンマ区切り
-- **ヘッダー**: `baseDate,tradeNo,customerCode,securityCode,buySell,quantity,amount,contractDate,settlementDate`
-- **注**: 現在のTrade ETLでは使用されていない（Tasklet方式）
 
 ---
 
